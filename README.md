@@ -1,5 +1,6 @@
 # My implementation of the game "Tetris".
-My plan:
+
+## My plan:
 
 - add go.mod file
 - add go.sum file
