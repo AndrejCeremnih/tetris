@@ -13,11 +13,24 @@ import (
 )
 
 const (
-	figureBody    = '*'
-	figureFgColor = termbox.ColorGreen
+	figureBody     = '*'
+	figureFgColor0 = termbox.ColorGreen
+	figureFgColor1 = termbox.ColorLightCyan
+	figureFgColor2 = termbox.ColorLightYellow
 	// Use the default background color for the figure.
 	figureBgColor = termbox.ColorDefault
 )
+
+func getFigureFgColor(i int) termbox.Attribute { // to make the color of the figure random (i is a random number)
+	if i == 0 {
+		return figureFgColor0
+	} else if i == 1 {
+		return figureFgColor1
+	} else if i == 2 {
+		return figureFgColor2
+	}
+	return termbox.Attribute(0)
+}
 
 // writeText writes a string to the buffer.
 func writeText(x, y int, s string, fg, bg termbox.Attribute) {
@@ -88,7 +101,8 @@ func hitsTheFloor(g game) bool {
 
 // drawfigurePosition draws the current figure position (as a debugging
 // information) in the buffer.
-func drawfigurePosition(g game) {
+func drawfigurePosition(g game, i int) {
+	figureFgColor := getFigureFgColor(i)
 	str := fmt.Sprintf("(%d, %d)", g.sn.pos[0].x, g.sn.pos[0].y)
 	writeText(g.fieldWidth-len(str), 0, str, figureFgColor, figureBgColor)
 }
@@ -109,10 +123,11 @@ func drawfigurePosition(g game) {
 //
 
 // drawfigure draws the figure in the buffer.
-func drawfigure(sn figure) {
+func drawfigure(sn figure, i int) {
 	// termbox.SetCell(sn.pos.x, sn.pos.y, figureBody, figureFgColor, figureBgColor)
 
 	for _, pos := range sn.pos {
+		figureFgColor := getFigureFgColor(i)
 		termbox.SetCell(pos.x, pos.y, figureBody, figureFgColor, figureBgColor)
 	}
 }
@@ -135,14 +150,15 @@ func drawBorders(g game) {
 }
 
 // Redraws the terminal.
-func draw(g game) {
+func draw(g game, i int) {
+	figureFgColor := getFigureFgColor(i)
 	// Clear the old "frame".
 	termbox.Clear(figureFgColor, figureBgColor)
-	drawfigurePosition(g)
+	drawfigurePosition(g, i)
 
 	///     drawScore(g)   !!!
 
-	drawfigure(g.sn)
+	drawfigure(g.sn, i)
 	drawBorders(g)
 	// Update the "frame".
 	termbox.Flush()
@@ -155,7 +171,7 @@ func movefigure(s figure, v coord, fw, fh int) figure {
 	return s
 }
 
-func step(g game) game {
+func step(g game, i int) game {
 	g.sn = movefigure(g.sn, g.v, g.fieldWidth, g.fieldHeight)
 
 	//if g.sn.pos[0] == g.ap.pos {
@@ -163,9 +179,10 @@ func step(g game) game {
 	//	g.sn.pos = append([]coord{{g.sn.pos[0].x, g.sn.pos[0].y}}, g.sn.pos...)
 	//}
 
-	draw(g)
+	draw(g, i)
 
 	if hitsTheFloor(g) { // CHANGE LATER !!!
+		figureFgColor := getFigureFgColor(i)
 		//termbox.SetChar(g.sn.pos[0].x, g.sn.pos[0].y, figureBody)
 		termbox.SetCell(64, 2, '%', figureFgColor, figureBgColor)
 		g.sn = newfigure(g)
@@ -204,6 +221,8 @@ func StartTheGame() {
 	g := newGame()
 	g.sn = newfigure(g)
 
+	i := rand.Intn(3) // to make the color of the figure random
+
 	eventQueue := make(chan termbox.Event)
 	go func() {
 		for {
@@ -238,7 +257,7 @@ func StartTheGame() {
 				}
 			}
 		case <-ticker.C:
-			g = step(g)
+			g = step(g, i)
 		}
 	}
 }
