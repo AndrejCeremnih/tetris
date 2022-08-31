@@ -6,7 +6,6 @@ import (
 
 	"eklase/screen"
 	"eklase/state"
-	"eklase/storage"
 
 	"gioui.org/app"
 	"gioui.org/font/gofont"
@@ -15,8 +14,6 @@ import (
 	"gioui.org/op"
 	"gioui.org/unit"
 	"gioui.org/widget/material"
-
-	_ "modernc.org/sqlite"
 )
 
 func main() {
@@ -33,10 +30,8 @@ func main() {
 }
 
 func mainLoop(w *app.Window) error {
-	storage := storage.Must(storage.New("school.db"))
-	defer storage.Close()
-
-	appState := state.New(storage)
+	var s bool
+	appState := state.New(s)
 
 	th := material.NewTheme(gofont.Collection())
 	currentLayout := screen.MainMenu(th, appState)
