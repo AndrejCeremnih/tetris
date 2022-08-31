@@ -187,13 +187,9 @@ func step(g game, i int) (game, int) {
 
 	if hitsTheFloor(g) { // CHANGE LATER !!!
 		rand.Seed(time.Now().UnixNano())
-		ii := rand.Intn(5) // to change the color of the figure
+		ii := rand.Intn(4) // to change the color of the figure
 		if i == ii {
-			if i > 0 {
-				i = i - 1
-			} else {
-				i = i + 1
-			}
+			i = i + 1
 		} else {
 			i = ii
 		}
