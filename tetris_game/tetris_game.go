@@ -71,8 +71,8 @@ func getAllTheSides(g game) (leftBorder, rightBorder, up, down int) {
 }
 
 // newfigure returns a new struct instance representing a figure.
-// The figure is placed in a random position in the game field.
-// The movement direction is right.
+// The figure is placed in the center of the game field from above.
+// The movement direction is down.
 func newfigure(g game) figure {
 	x := g.fieldWidth / 2
 	_, _, y, _ := getAllTheSides(g)
