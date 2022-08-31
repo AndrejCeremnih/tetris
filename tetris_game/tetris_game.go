@@ -76,8 +76,8 @@ func getAllTheSides(g game) (leftBorder, rightBorder, up, down int) {
 func newfigure(g game) figure {
 	x := g.fieldWidth / 2
 	_, _, y, _ := getAllTheSides(g)
-	y = y + 1
-	g.sn.pos = []coord{{x, y}, {x, y - 1}, {x, y - 1}}
+	y = y - 1
+	g.sn.pos = []coord{{x, y}, {x, y - 1}, {x, y - 2}}
 	return figure{g.sn.pos}
 }
 
@@ -122,11 +122,12 @@ func drawfigurePosition(g game, i int) {
 //
 
 // drawfigure draws the figure in the buffer.
-func drawfigure(sn figure, i int) {
-	// termbox.SetCell(sn.pos.x, sn.pos.y, figureBody, figureFgColor(i), figureBgColor)
-
-	for _, pos := range sn.pos {
-		termbox.SetCell(pos.x, pos.y, figureBody, getFigureFgColor(i), figureBgColor)
+func drawfigure(g game, sn figure, i int) {
+	_, _, up, _ := getAllTheSides(g)
+	for cnt, pos := range sn.pos {
+		if g.sn.pos[cnt].y > up { // the figure will not appear outside the borders
+			termbox.SetCell(pos.x, pos.y, figureBody, getFigureFgColor(i), figureBgColor)
+		}
 	}
 }
 
@@ -155,7 +156,7 @@ func draw(g game, i int) {
 
 	///     drawScore(g)   !!!
 
-	drawfigure(g.sn, i)
+	drawfigure(g, g.sn, i)
 	drawBorders(g)
 	// Update the "frame".
 	termbox.Flush()
@@ -183,8 +184,6 @@ func step(g game, i int) game {
 		termbox.SetCell(64, 2, '%', getFigureFgColor(i), figureBgColor)
 		g.sn = newfigure(g)
 	}
-
-	// draw(g)
 	return g
 }
 
