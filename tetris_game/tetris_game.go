@@ -17,6 +17,8 @@ const (
 	figureFgColor0 = termbox.ColorGreen
 	figureFgColor1 = termbox.ColorLightCyan
 	figureFgColor2 = termbox.ColorLightYellow
+	figureFgColor3 = termbox.ColorLightMagenta
+	figureFgColor4 = termbox.ColorLightRed
 	// Use the default background color for the figure.
 	figureBgColor = termbox.ColorDefault
 )
@@ -28,6 +30,10 @@ func getFigureFgColor(i int) termbox.Attribute { // to make the color of the fig
 		return figureFgColor1
 	} else if i == 2 {
 		return figureFgColor2
+	} else if i == 3 {
+		return figureFgColor3
+	} else if i == 4 {
+		return figureFgColor4
 	}
 	return termbox.Attribute(0)
 }
@@ -169,7 +175,7 @@ func movefigure(s figure, v coord, fw, fh int) figure {
 	return s
 }
 
-func step(g game, i int) game {
+func step(g game, i int) (game, int) {
 	g.sn = movefigure(g.sn, g.v, g.fieldWidth, g.fieldHeight)
 
 	//if g.sn.pos[0] == g.ap.pos {
@@ -180,11 +186,23 @@ func step(g game, i int) game {
 	draw(g, i)
 
 	if hitsTheFloor(g) { // CHANGE LATER !!!
+		rand.Seed(time.Now().UnixNano())
+		ii := rand.Intn(5) // to change the color of the figure
+		if i == ii {
+			if i > 0 {
+				i = i - 1
+			} else {
+				i = i + 1
+			}
+		} else {
+			i = ii
+		}
+
 		//termbox.SetChar(g.sn.pos[0].x, g.sn.pos[0].y, figureBody)
 		termbox.SetCell(64, 2, '%', getFigureFgColor(i), figureBgColor)
 		g.sn = newfigure(g)
 	}
-	return g
+	return g, i
 }
 
 func moveLeft(g game) game {
@@ -216,7 +234,7 @@ func StartTheGame() {
 	g := newGame()
 	g.sn = newfigure(g)
 
-	i := rand.Intn(3) // to make the color of the figure random
+	i := rand.Intn(5) // to make the color of the figure random
 
 	eventQueue := make(chan termbox.Event)
 	go func() {
@@ -252,7 +270,7 @@ func StartTheGame() {
 				}
 			}
 		case <-ticker.C:
-			g = step(g, i)
+			g, i = step(g, i)
 		}
 	}
 }
