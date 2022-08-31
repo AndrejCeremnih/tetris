@@ -29,7 +29,7 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 		quit        widget.Clickable
 		addimage    widget.Image
 	)
-	addimage.Src = draw()
+	addimage.Src = drawJPEG()
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
 		widgetcolor := th.ContrastBg // To change the widget's background color
 		widgetcolor.A, widgetcolor.R, widgetcolor.G, widgetcolor.B = 0xff, 0x00, 0x0a, 0x12
@@ -45,12 +45,12 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 		matQuitBut.Font = text.Font{Variant: "Smallcaps", Style: text.Italic}
 		matQuitBut.Background = color.NRGBA{A: 0xff, R: 0xc6, G: 0x28, B: 0x28}
 
+		layout.SE.Layout(gtx, addimage.Layout)
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 			layout.Rigid(rowInset(matStartBut.Layout)),
 			layout.Rigid(rowInset(matInstructionBut.Layout)),
 			layout.Rigid(rowInset(matQuitBut.Layout)),
 		)
-		layout.SE.Layout(gtx, addimage.Layout)
 		if start.Clicked() {
 			state.Quit() // I don't know why, but it doesn't close the widget immediately
 			tetris_game.StartTheGame()
@@ -65,7 +65,7 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 	}
 }
 
-func draw() paint.ImageOp {
+func drawJPEG() paint.ImageOp {
 	f, err := os.Open("tetris.jpeg")
 	if err != nil {
 		log.Fatal(err)
@@ -77,7 +77,6 @@ func draw() paint.ImageOp {
 	}
 	f.Close()
 
-	// width, height := 100, 10
 	width, height := termbox.Size()
 	m := resize.Resize(uint(width), uint(height), img, resize.Lanczos3)
 
