@@ -31,7 +31,7 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 	)
 	addimage.Src = drawJPEG()
 	return func(gtx layout.Context) (Screen, layout.Dimensions) {
-		widgetcolor := th.ContrastBg // To change the widget's background color
+		widgetcolor := th.ContrastBg // to change the background color of the widget
 		widgetcolor.A, widgetcolor.R, widgetcolor.G, widgetcolor.B = 0xff, 0x00, 0x0a, 0x12
 		max := image.Pt(gtx.Constraints.Max.X, gtx.Constraints.Min.Y)
 		paint.FillShape(gtx.Ops, widgetcolor, clip.Rect{Max: max}.Op())
