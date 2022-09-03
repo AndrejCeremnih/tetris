@@ -37,19 +37,19 @@ func Instruction(th *material.Theme, state *state.State) Screen {
 				return style
 			}
 			return layout.Flex{Axis: layout.Vertical, Spacing: layout.SpaceStart}.Layout(gtx,
-				layout.Rigid(rowInset(labelFn(18, "* INSTRUCTION TO MY 'TETRIS':").Layout)),
-				layout.Rigid(rowInset(labelFn(15, "").Layout)),
-				layout.Rigid(rowInset(labelFn(15, "- ARROW LEFT (←)    : MOVE THE FIGURE TO THE LEFT").Layout)),
-				layout.Rigid(rowInset(labelFn(15, "- ARROW RIGHT (→) : MOVE THE FIGURE TO THE RIGHT").Layout)),
-				layout.Rigid(rowInset(labelFn(15, "- ARROW UP (↑)         : ROTATE THE FIGURE").Layout)),
-				layout.Flexed(1, rowInset(labelFn(15, "- ARROW DOWN (↓)   : SPEED UP THE FALL OF THE FIGURE").Layout)),
+				layout.Rigid(rowInset(labelFn(21, "* INSTRUCTION TO MY 'TETRIS':").Layout)),
+				layout.Rigid(rowInset(labelFn(17, "").Layout)),
+				layout.Rigid(rowInset(labelFn(17, "- ARROW LEFT (←)    : MOVE THE FIGURE TO THE LEFT").Layout)),
+				layout.Rigid(rowInset(labelFn(17, "- ARROW RIGHT (→) : MOVE THE FIGURE TO THE RIGHT").Layout)),
+				layout.Rigid(rowInset(labelFn(17, "- ARROW UP (↑)         : ROTATE THE FIGURE").Layout)),
+				layout.Flexed(1, rowInset(labelFn(17, "- ARROW DOWN (↓)   : SPEED UP THE FALL OF THE FIGURE").Layout)),
 			)
 		}
 
 		matCloseBut := material.Button(th, &close, " Close ")
 		matCloseBut.Font = text.Font{Variant: "Mono", Weight: text.Bold, Style: text.Italic}
 
-		layout.SE.Layout(gtx, addimage.Layout)
+		layout.NE.Layout(gtx, addimage.Layout) // NE (North East) is used to move the picture to the top right corner
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 			layout.Flexed(1, textRowLayout),
 			layout.Rigid(rowInset(matCloseBut.Layout)),
