@@ -50,13 +50,13 @@ func InstructionText(th *material.Theme, list *widget.List) func(gtx layout.Cont
 				}),
 				layout.Stacked(rowInset(func(gtx layout.Context) layout.Dimensions {
 					return layout.Flex{}.Layout(gtx,
-						layout.Rigid(rowInset(labelFn(17, text1).Layout)),
+						layout.Rigid(rowInset(labelFn(16.5, text1).Layout)),
 					)
 				})),
 				layout.Stacked(rowInset(func(gtx layout.Context) layout.Dimensions {
 					return layout.Flex{}.Layout(gtx,
-						layout.Rigid(rowInset(material.Body1(th, fmt.Sprintln("                                      ")).Layout)),
-						layout.Rigid(rowInset(labelFn(17, text2).Layout)),
+						layout.Rigid(rowInset(material.Body1(th, fmt.Sprintln("                                     ")).Layout)),
+						layout.Rigid(rowInset(labelFn(16.5, text2).Layout)),
 					)
 				})),
 			)
@@ -86,8 +86,8 @@ func Instruction(th *material.Theme, state *state.State) Screen {
 		}
 
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
-			layout.Rigid(rowInset(labelFn(22, " * INSTRUCTION TO MY 'TETRIS' :").Layout)),
-			layout.Rigid(rowInset(labelFn(17, "").Layout)),
+			layout.Rigid(rowInset(labelFn(21.5, " * INSTRUCTION TO MY 'TETRIS' :").Layout)),
+			layout.Rigid(rowInset(labelFn(16.5, "").Layout)),
 			layout.Flexed(1, rowInset(textRowLayout)),
 			layout.Rigid(rowInset(material.Button(th, &close, "Close").Layout)),
 		)
