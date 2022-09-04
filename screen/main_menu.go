@@ -16,9 +16,6 @@ import (
 	"gioui.org/text"
 	"gioui.org/widget"
 	"gioui.org/widget/material"
-
-	"github.com/nfnt/resize"
-	"github.com/nsf/termbox-go"
 )
 
 // MainMenu defines a main menu screen layout.
@@ -45,6 +42,7 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 		matQuitBut.Font = text.Font{Variant: "Smallcaps", Style: text.Italic}
 		matQuitBut.Background = color.NRGBA{A: 0xff, R: 0xc6, G: 0x28, B: 0x28}
 
+		addimage.Fit = widget.Contain // now the picture is always full screen
 		layout.SE.Layout(gtx, addimage.Layout)
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 			layout.Rigid(rowInset(matStartBut.Layout)),
@@ -77,9 +75,6 @@ func drawJPEG() paint.ImageOp {
 	}
 	f.Close()
 
-	width, height := termbox.Size()
-	m := resize.Resize(uint(width), uint(height), img, resize.Lanczos3)
-
-	src := paint.NewImageOp(m)
+	src := paint.NewImageOp(img)
 	return src
 }
