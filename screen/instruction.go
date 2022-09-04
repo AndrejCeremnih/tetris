@@ -12,6 +12,7 @@ import (
 	"gioui.org/layout"
 	"gioui.org/op/clip"
 	"gioui.org/op/paint"
+	"gioui.org/text"
 	"gioui.org/unit"
 	"gioui.org/widget"
 	"gioui.org/widget/material"
@@ -85,11 +86,14 @@ func Instruction(th *material.Theme, state *state.State) Screen {
 			return style
 		}
 
+		matCloseBut := material.Button(th, &close, " Close ")
+		matCloseBut.Font = text.Font{Variant: "Mono", Weight: text.Bold, Style: text.Italic}
+
 		d := layout.Flex{Axis: layout.Vertical}.Layout(gtx,
 			layout.Rigid(rowInset(labelFn(21.5, " * INSTRUCTION TO MY 'TETRIS' :").Layout)),
 			layout.Rigid(rowInset(labelFn(16.5, "").Layout)),
 			layout.Flexed(1, rowInset(textRowLayout)),
-			layout.Rigid(rowInset(material.Button(th, &close, "Close").Layout)),
+			layout.Rigid(rowInset(matCloseBut.Layout)),
 		)
 		layout.NE.Layout(gtx, addimage.Layout) // NE (North East) is used to move the picture to the top right corner
 		if close.Clicked() {

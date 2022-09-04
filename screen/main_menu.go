@@ -33,12 +33,12 @@ func MainMenu(th *material.Theme, state *state.State) Screen {
 		max := image.Pt(gtx.Constraints.Max.X, gtx.Constraints.Min.Y)
 		paint.FillShape(gtx.Ops, widgetcolor, clip.Rect{Max: max}.Op())
 
-		matStartBut := material.Button(th, &start, "Start")
+		matStartBut := material.Button(th, &start, " Start ")
 		matStartBut.Font = text.Font{Variant: "Mono", Weight: text.Bold, Style: text.Italic}
 		matStartBut.Background = color.NRGBA{A: 0xff, R: 0x2e, G: 0x7d, B: 0x32}
-		matInstructionBut := material.Button(th, &instruction, "Instruction")
+		matInstructionBut := material.Button(th, &instruction, " Instruction ")
 		matInstructionBut.Font = text.Font{Variant: "Mono", Weight: text.Bold, Style: text.Italic}
-		matQuitBut := material.Button(th, &quit, "Quit")
+		matQuitBut := material.Button(th, &quit, " Quit ")
 		matQuitBut.Font = text.Font{Variant: "Smallcaps", Style: text.Italic}
 		matQuitBut.Background = color.NRGBA{A: 0xff, R: 0xc6, G: 0x28, B: 0x28}
 
