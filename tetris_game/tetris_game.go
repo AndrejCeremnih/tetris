@@ -23,7 +23,6 @@ const (
 	figureBgColor = termbox.ColorDefault
 )
 
-// Will be used for drawing the previous figure.
 var (
 	shouldCreateNewFigure    bool
 	shouldDrawPreviousFigure bool
