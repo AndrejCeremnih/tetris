@@ -84,6 +84,15 @@ func getAllTheSides(g game) (leftBorder, rightBorder, up, down int) {
 	return
 }
 
+// func getTheGameField(g game) [][]int { // WORKS CORRECTLY, I HAVE ALREADY CHECKED !!!  (this function might be useful later, but I'm not sure about it)
+//	   leftBorder, rightBorder, up, down := getAllTheSides(g)
+//	   gamefield := make([][]int, (down-1)-(up+1))
+//	   for i := range gamefield {
+//		   gamefield[i] = make([]int, (rightBorder-1)-(leftBorder+1))
+// 	   }
+//	   return gamefield
+// }
+
 // newfigure returns a new struct instance representing a figure.
 // The figure is placed in the center of the game field from above.
 // The movement direction is down.
@@ -202,10 +211,10 @@ func step(g game, i int) (game, int) {
 	draw(g, i)
 
 	hitsTheFloor(g)
-	if shouldCreateNewFigure { // CHANGE LATER !!!
+	if shouldCreateNewFigure {
 		rand.Seed(time.Now().UnixNano())
 		ii := rand.Intn(4) // to change the color of the figure
-		if i == ii {
+		if i == ii {       // the same color cannot be repeated twice in a row
 			i = i + 1
 		} else {
 			i = ii
