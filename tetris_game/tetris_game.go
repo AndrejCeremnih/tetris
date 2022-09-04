@@ -8,8 +8,6 @@ import (
 	"time"
 
 	"github.com/nsf/termbox-go"
-
-	_ "modernc.org/sqlite"
 )
 
 const (
